@@ -29,7 +29,7 @@ function Home() {
           </h1>
           <h4 class="card-title">{lists.name}</h4>
           <h4 class="card-title">{lists.scale}</h4>
-          <button class="btn btn-dark" onClick={() => navigate(`/view_product/${lists.id}`)}>Order now</button>
+          <button class="btn btn-dark" onClick={() => navigate(`/view_product/${lists.id}`)}>View Product</button>
         </div>
       </div>
 

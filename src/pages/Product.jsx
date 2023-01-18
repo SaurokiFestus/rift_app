@@ -1,9 +1,10 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 function Product({ items, setItems }) {
   const params = useParams();
+  const navigate = useNavigate()
   const [product, setProduct] = useState({});
   const { id } = params;
 
@@ -14,10 +15,29 @@ function Product({ items, setItems }) {
         setProduct(data);
       });
   }, []);
+  
   console.log(product);
+
+
+  function handleOrderClick() {
+    fetch("/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ product_id: id }),
+    }).then((r) => {
+      if (r.ok) {
+        setItems(items + 1);
+        navigate("/view_cart");
+      } else {
+        // r.json().then((err) => setErrors(err.errors));
+      }
+    });
+  }
   return (
     <div>
-      <div class="card">
+      <div key={id} class="card">
         <h5 class="card-header">
           Name:{" "}
           <span className="">
@@ -27,7 +47,7 @@ function Product({ items, setItems }) {
         <div class="card-body">
           <h5 class="card-title">{product.price}</h5>
 
-          <a href="#" class="btn btn-primary">
+          <a href="#" class="btn btn-primary" onClick={handleOrderClick}>
             Add to cart
           </a>
         </div>
